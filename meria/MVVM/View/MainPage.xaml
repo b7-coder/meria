@@ -1,0 +1,493 @@
+﻿<Window x:Class="meria.MVVM.View.MainPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:meria.MVVM.View"
+        xmlns:data="clr-namespace:meria.MVVM.ViewModel" Closing="Window_Closing"
+        mc:Ignorable="d" WindowStyle="None" WindowState="Maximized" KeyUp="Window_KeyUp"
+        Title="" Height="700" Width="1000">
+    <Window.DataContext>
+        <data:BaseLogic/>
+    </Window.DataContext>
+    <Window.Resources>
+        <SolidColorBrush x:Key="dark1">#323233</SolidColorBrush>
+        <SolidColorBrush x:Key="dark2">#2D2D2D</SolidColorBrush>
+        <SolidColorBrush x:Key="dark3">#1E1E1E</SolidColorBrush>
+        <SolidColorBrush x:Key="dark4">#3C3C3C</SolidColorBrush>
+        <SolidColorBrush x:Key="dark5">#252526</SolidColorBrush>
+        <SolidColorBrush x:Key="dark6">#887253</SolidColorBrush>
+        <SolidColorBrush x:Key="darkForeground">#FFFFFF</SolidColorBrush>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bir" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bir" Property="BorderThickness" Value="2"/>
+                                <Setter TargetName="bir" Property="BorderBrush" Value="{StaticResource dark3}"/>
+                                <Setter TargetName="bir" Property="Background" Value="{StaticResource dark4}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type local:MainPage}">
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome CornerRadius="0" GlassFrameThickness="0" ResizeBorderThickness="0" CaptionHeight="0"></WindowChrome>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="VsMenuTop" TargetType="MenuItem" >
+            <StackPanel TextBlock.FontSize="16px" Width="{Binding ElementName=columms,Path=ActualWidth}">
+                <Label FontSize="20" BorderThickness="1,0,1,0" BorderBrush="White" Content="{TemplateBinding Header}" Margin="5" HorizontalContentAlignment="Center" Foreground="White" />
+                <Popup IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False">
+                    <Border BorderThickness="1" Background="White" BorderBrush="#E0E0E0">
+                        <StackPanel IsItemsHost="True" />
+                    </Border>
+                </Popup>
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver"  Value="True">
+                                <Setter Property="Background" Value="#FF679ECD" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+
+            </StackPanel>
+        </ControlTemplate>
+        <Style TargetType="DataGrid" x:Key="grid_Kuxne">
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Background" Value="{StaticResource dark2}" />
+            <Setter Property="HorizontalGridLinesBrush" Value="Transparent" />
+            <Setter Property="VerticalGridLinesBrush" Value="Transparent" />
+            <Setter Property="ColumnWidth" Value="*"/>
+            <Setter Property="RowHeight" Value="60"/>
+            
+            <Setter Property="RowStyle">
+                
+                <Setter.Value>
+
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="LightGray" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="CellStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Margin" Value="10 0 0 0"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Padding" Value="14,3,4,3" />
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="2"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="DataGridCell">
+                                    <Border Padding="{TemplateBinding Padding}" 
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Background="{x:Null}">
+                                        <ContentPresenter VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type DataGridColumnHeader}" x:Key="hederstyle_Kuxne" >
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="Foreground" Value="LightGray"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1 1 1 0"/>
+            <Setter Property="Padding" Value="15 0 0 0"/>
+            <Setter Property="Background" Value="{StaticResource dark4}"/>
+        </Style>
+        <Style TargetType="TabItem" x:Key="TabControl">
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border Name="Panel">
+                            <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalAlignment="Stretch"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Panel" Property="Height" Value="35"/>
+                                <Setter Property="Foreground" Value="#FFFFDB"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter TargetName="Panel" Property="Background" Value="{StaticResource dark3}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="Foreground" Value="#96866D"/>
+                                <Setter TargetName="Panel" Property="Background" Value="{StaticResource dark2}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid ><!--#C2C3C9-->
+        <Grid.Background>
+            <StaticResource ResourceKey="dark1" />
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <DockPanel Background="Transparent" Grid.Row="0" MouseDown="DockPanel_MouseDown">
+            
+            <Menu Width="Auto" Name="menu1" VerticalAlignment="Top" DockPanel.Dock="Left" Background="Transparent" Padding="0 10 0 0">
+                <!--<Image HorizontalAlignment="Center" VerticalAlignment="Center" Source="/Images/voice.png" Height="35" Width="35" Margin="15 0 10 0"/>
+                <MenuItem Header="Файл" Foreground="White" FontSize="16">
+                    <MenuItem Header="Настройки" Height="35" FontSize="16"/>
+                    <Separator/>р
+                    <MenuItem Header="Выйти" Height="35" FontSize="16"/>
+                </MenuItem>
+                <MenuItem Header="Справка" Foreground="White" FontSize="16">
+                    <MenuItem Header="О программе" Height="35" FontSize="16"/>
+                </MenuItem>-->
+            </Menu>
+            <Border HorizontalAlignment="Right" DockPanel.Dock="Right" Padding="0 10 10 0">
+                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                    <Button  Click="Button_Click_1" Width="30" Foreground="White" Background="Transparent" BorderBrush="Transparent" BorderThickness="1">
+                        <Image Source="/Images/base/multiply.png"/>
+                    </Button>
+                    <Button Padding="3"  Click="Button_Click_2" Width="30" Foreground="White" Background="Transparent" BorderBrush="Transparent"  BorderThickness="1" Margin="10 0 0 0">
+                        <Image x:Name="down_up_btn" Source="/Images/base/restore_down.png"/>
+                    </Button>
+                    <Button Width="30" Click="Button_Click_4" Foreground="White" Background="Transparent" BorderBrush="Transparent"  BorderThickness="1" Margin="10 0 0 0">
+                        <Image Source="/Images/base/subtract_512px.png"/>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </DockPanel>
+        <TabControl x:Name="TabCont" Margin="5,10,5,5" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" BorderThickness="0"  Background="{StaticResource dark3}">
+            <TabItem Style="{StaticResource TabControl}" Padding="0" Margin="5,0,0,0" Header="Очередь"   Height="30" Width="250" >
+                <Grid Background="{StaticResource dark3}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock  Foreground="White" Margin="0 0 10 5" FontWeight="Normal" Grid.Row="2" Text="{Binding CountQueue}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                    <TextBlock Foreground="White" Margin="0 0 0 5"  FontWeight="Normal" Grid.Row="2" Text="{Binding QueueTimes}" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                    <Grid Margin="5" Grid.RowSpan="2" Background="#F7F9FE">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Background="{StaticResource dark3}" >
+                            <TextBlock Width="auto" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30 0 0 0" FontSize="16" Text="Текущий список для речи" FontWeight="DemiBold" Foreground="White" Background="Transparent"/>
+                            <!--<TextBox  FontWeight="Normal" x:Name="searchBox" HorizontalAlignment="Right" Width="200" Margin="5 5 20 5"/>
+                            <Image  Width="20" Height="20" Margin="0 0 23 0" Source="/Images/search.png" HorizontalAlignment="Right"/>-->
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <DataGrid FontSize="32" Style="{DynamicResource grid_Kuxne}"
+                                ColumnHeaderStyle="{DynamicResource hederstyle_Kuxne}"
+                                 HeadersVisibility="Column" BorderThickness="0"
+                                 Padding="5 0 5 0" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black"
+         
+                                 VerticalScrollBarVisibility="Hidden"
+                                 CanUserAddRows="False"
+                                 AutoGenerateColumns="False"
+                                 CanUserResizeColumns="True"
+                                 SelectedValue="{Binding SelectedQueue, UpdateSourceTrigger=PropertyChanged}"
+                                 ItemsSource="{Binding Queue, UpdateSourceTrigger=PropertyChanged}" >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Name}" IsReadOnly="True" Header="ФАМИЛИЯ ИМЯ ОТЧЕСТВО"  Width="2.5*" FontSize="25" Foreground="Black">
+                                       
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding TimeForView, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="ВРЕМЯ ДЛЯ РЕЧИ"  Width="*" FontSize="30" Foreground="Black"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Grid>
+                    <Image Margin="0 10 0 0" Grid.Row="1" Grid.Column="1" HorizontalAlignment="center" VerticalAlignment="Center" Source="/Images/kg.png"/>
+
+                    <Grid Grid.RowSpan="2" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="current" Height="1*" />
+                            <RowDefinition x:Name="settings" Height="2*" />
+                        </Grid.RowDefinitions>
+                        <Grid  Margin="5"  Background="#F7F9FE">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid Background="{StaticResource dark3}">
+                                <TextBlock Width="auto" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 0 0" FontSize="16" Text="Текущий" Foreground="White" Background="Transparent"/>
+                                <Button BorderBrush="Transparent" Background="Transparent" Width="40" HorizontalAlignment="Right" Click="Button_Click">
+                                    <Image x:Name="currentGridImage" Source="/Images/subtract.png"/>
+                                </Button>
+                            </Grid>
+                            <Grid Grid.Row="1" Background="{StaticResource dark4}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                               
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.ColumnSpan="3" Foreground="LightGray" Padding="0 15 0 0" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Text="{Binding CurrentQueue.Name}"/>
+                                <TextBlock Width="auto" Grid.ColumnSpan="3" Foreground="LightGray" FontSize="50" Padding="0 0 0 25" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding CurrentMinute}"/>
+                                        <TextBlock Text=" : "/>
+                                        <TextBlock Text="{Binding CurrentSecond}"/>
+                                    </StackPanel>
+                                </TextBlock>
+                                <Button Command="{Binding Pause}" Background="Transparent" Grid.Column="0" Margin="0 0 10 20" Grid.Row="1" HorizontalAlignment="Center" Height="40" Width="40">
+                                    <Image x:Name="PauseBtn" Height="50" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill"  Source="/Images/pause_26px.png"/>
+                                </Button>
+                                <Button Command="{Binding Next}" Background="Transparent" Grid.Column="2" Margin="10 0 0 20" Grid.Row="1" HorizontalAlignment="Center" Height="40" Width="40">
+                                    <Image Height="50" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill" Source="/Images/fast_forward_26px.png"/>
+                                </Button>
+                            </Grid>
+                        </Grid>
+                        <Grid Margin="5" Grid.Row="1" Background="{StaticResource dark4}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid Background="{StaticResource dark5}">
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16"  Margin="20 0 0 0"  Text="Настройки" Foreground="White" Background="Transparent"/>
+                                <Button BorderBrush="Transparent" Background="Transparent" Width="40" HorizontalAlignment="Right" Click="Button_Click_3">
+                                    <Image x:Name="settingsGridImage" Source="/Images/subtract.png"/>
+                                </Button>
+                            </Grid>
+                            <Grid Grid.Row="1" >
+                                <TabControl Background="{StaticResource dark4}" Margin="5,10,5,5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" BorderThickness="0">
+                                    <TabItem FontSize="16" Padding="5" Style="{StaticResource TabControl}" Header="Выбранный"   Height="25" Width="120" >
+                                        <Grid Background="{StaticResource dark4}">
+                                            <Grid.Resources>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="Width" Value="40"/>
+                                                    <Setter Property="Height" Value="40"/>
+                                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                                <Border x:Name="bir1" Background="{TemplateBinding Background}">
+                                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter TargetName="bir1" Property="BorderThickness" Value="2"/>
+                                                                        <Setter TargetName="bir1" Property="BorderBrush" Value="{StaticResource dark3}"/>
+                                                                        <Setter TargetName="bir1" Property="Background" Value="{StaticResource dark4}"/>
+                                                                    </Trigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Grid.Resources>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1.5*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1.5*" />
+                                                    <ColumnDefinition Width="0.5*" />
+                                                    <ColumnDefinition Width="1.5*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition Height="0.9*"/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <Button Command="{Binding ChangeTimeCommand}" CommandParameter="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                    <Image Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/Images/Up.png"/>
+                                                </Button>
+                                                <Button Command="{Binding ChangeTimeCommand}" CommandParameter="-1" Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                    <Image Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/Images/Down.png"/>
+                                                </Button>
+                                                <Button Command="{Binding ChangeTimeCommand}" CommandParameter="10" Grid.Row="0" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                                                    <Image Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Source="../../Images/Up.png"/>
+                                                </Button>
+                                                <Button Command="{Binding ChangeTimeCommand}" CommandParameter="-10" Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                    <Image Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/Images/Down.png"/>
+                                                </Button>
+                                                <TextBox PreviewTextInput="PreviewTextInput"  Text="{Binding SelectedMin}" Foreground="LightGray" Margin="0 0 2 0" Padding="0 0 0 6" BorderBrush="Transparent" Grid.Row="1" Grid.Column="0" Background="Transparent" HorizontalAlignment="Right" FontSize="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="40" Width="auto"/>
+                                                <TextBlock Foreground="LightGray" Grid.Row="1" Grid.Column="1"  Text=" : " FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <TextBox PreviewTextInput="PreviewTextInput"  Text="{Binding SelectedSec}" Foreground="LightGray" Margin="2 0 0 0" Padding="0 0 0 6" BorderBrush="Transparent" Grid.Row="1" Grid.Column="2" Background="Transparent" HorizontalAlignment="Left" FontSize="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="40" Width="auto"/>
+                                            </Grid>
+                                            <Grid Grid.Row="1">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1.4*" />
+                                                    <RowDefinition Height="1.4*" />
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                </Grid.RowDefinitions>
+                                                <Button Command="{Binding AddTimeToCurrentCommand}" Background="{DynamicResource dark3}" Foreground="White" BorderThickness="0" BorderBrush="#5D6B99" Width="auto" Height="auto" Margin="5" >
+                                                    <StackPanel>
+                                                        <TextBlock TextAlignment="Center">
+                                                        Добавить время выбранному
+                                                        </TextBlock>
+                                                        <TextBlock FontSize="25" HorizontalAlignment="Center" Text="{Binding SelectedQueue.Name,UpdateSourceTrigger=PropertyChanged}"/>
+                                                    </StackPanel>
+                                                </Button>
+                                                <Button Command="{Binding GiveWordCommand}" Grid.Row="1" Background="{StaticResource dark3}" BorderThickness="0" Foreground="White" Width="auto" Height="auto" Margin="5" >
+                                                    <StackPanel>
+                                                        <TextBlock TextAlignment="Center">
+                                                        Дать слово
+                                                        </TextBlock>
+                                                        <TextBlock FontSize="25" HorizontalAlignment="Center" Text="{Binding SelectedQueue.Name,UpdateSourceTrigger=PropertyChanged}"/>
+                                                    </StackPanel>
+                                                </Button>
+                                                <Button Command="{Binding GiveAllsTimeCommand}" Grid.Row="2" Background="{StaticResource dark3}" BorderThickness="0" Foreground="White" Width="auto" Height="auto" Margin="5" Content="Добавить время всем"/>
+                                                <Button Command="{Binding DeleteUserCommand}" Grid.Row="3" Background="{StaticResource dark3}" BorderThickness="0" Foreground="White" Width="auto" Height="auto" Margin="5,5,5,10" Content="Удалить из списка"/>
+                                            </Grid>
+                                        </Grid>
+                                    </TabItem>
+                                    <TabItem FontSize="16" Padding="5" Style="{StaticResource TabControl}" Header="Общие настройки"   Height="25" Width="auto" >
+                                        <Grid Background="{StaticResource dark4}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="160" />
+                                            </Grid.RowDefinitions>
+                                            <Grid>
+                                                <Grid.Resources>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="Width" Value="45"/>
+                                                        <Setter Property="Height" Value="40"/>
+                                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                                    <Border x:Name="bir" Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                    </Border>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter TargetName="bir" Property="BorderThickness" Value="2"/>
+                                                                            <Setter TargetName="bir" Property="BorderBrush" Value="{StaticResource dark3}"/>
+                                                                            <Setter TargetName="bir" Property="Background" Value="{StaticResource dark4}"/>
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Grid.Resources>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="0.7*" />
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*" />
+                                                    <ColumnDefinition Width="0.5*" />
+                                                    <ColumnDefinition Width="1*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Foreground="LightGray" Grid.ColumnSpan="3" VerticalAlignment="Bottom" Text="Время по умолчанию" HorizontalAlignment="Center" FontSize="20" TextWrapping="Wrap" TextAlignment="Center" />
+                                                <Button Uid="1" Click="Button_Click_5" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                    <Image Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/Images/Up.png"/>
+                                                </Button>
+                                                <Button Uid="-1" Click="Button_Click_5" Grid.Row="3" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                    <Image Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/Images/Down.png"/>
+                                                </Button>
+                                                <Button Uid="10" Click="Button_Click_5" Grid.Row="1" Grid.Column="3"  HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                                                    <Image Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Source="../../Images/Up.png"/>
+                                                </Button>
+                                                <Button Uid="-10" Click="Button_Click_5" Grid.Row="3" Grid.Column="3"  HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                    <Image Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/Images/Down.png"/>
+                                                </Button>
+                                                <TextBox PreviewTextInput="PreviewTextInput" x:Name="minute" Foreground="LightGray" Padding="0 0 0 6" Margin="0 0 4 0" BorderBrush="Transparent" Grid.Row="2" Grid.Column="0" Background="Transparent" HorizontalAlignment="Right"  Text="00" FontSize="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="40" Width="auto"/>
+                                                <TextBlock Foreground="LightGray" Margin="0 0 0 6" Grid.Row="2" Grid.Column="1"  Text=" : " FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <TextBox PreviewTextInput="PreviewTextInput" x:Name="second" Foreground="LightGray" Padding="0 0 0 6" Margin="4 0 0 0" BorderBrush="Transparent" Grid.Row="2" Grid.Column="2" Background="Transparent" HorizontalAlignment="Left" Text="00" FontSize="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="40" Width="auto"/>
+
+                                            </Grid>
+                                            <Button Click="Button_Click_6" Grid.Row="1" Content="Сохранить время" FontSize="22" Foreground="White" Background="{StaticResource dark3}" BorderThickness="0" VerticalAlignment="Top" Padding="10" Margin="10" Height="60"/>
+                                            <Button Click="Button_Click_7" Grid.Row="1" Content="Очистить очередь" FontSize="22" Foreground="White" Background="{StaticResource dark3}" BorderThickness="0" VerticalAlignment="Bottom" Padding="10" Margin="10" Height="60"/>
+                                        </Grid>
+                                    </TabItem>
+                                </TabControl>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Margin="3 0 0 0" Style="{StaticResource TabControl}" Header="Пользователи"  HorizontalContentAlignment="Stretch" Height="30" Width="250" >
+                <Grid Background="{StaticResource dark3}" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.2*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Grid Background="{StaticResource dark4}" Margin="5" Grid.Row="1" Grid.ColumnSpan="2">
+                        <DataGrid FontSize="12" Style="{DynamicResource grid_Kuxne}"
+                                ColumnHeaderStyle="{DynamicResource hederstyle_Kuxne}"
+                                HeadersVisibility="Column" BorderThickness="0 0 0 0" GridLinesVisibility="All"
+                                RowBackground="White" Foreground="WhiteSmoke"
+                                VerticalScrollBarVisibility="Hidden" 
+                                CanUserAddRows="False" Padding="0 0 0 0" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black"
+                                AutoGenerateColumns="False"
+                                CanUserResizeColumns="True"
+                                SelectedValue="{Binding SelectedUser, UpdateSourceTrigger=PropertyChanged}"
+                                ItemsSource="{Binding ListForSecondWindow, UpdateSourceTrigger=PropertyChanged}" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Id}" IsReadOnly="True" Header="ID"  Width="0.5*" FontSize="25" Foreground="Black"/>
+                                <DataGridTextColumn Binding="{Binding Name}" IsReadOnly="True" Header="ФАМИЛИЯ ИМЯ ОТЧЕСТВО"  Width="2.5*" FontSize="30" Foreground="Black"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                    <Grid Background="{StaticResource dark4}" Margin="5" Grid.ColumnSpan="2" Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <Grid Background="{StaticResource dark5}">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16"  Margin="20 0 0 0"  Text="Изменить" Foreground="White" Background="Transparent"/>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox FontSize="30" Grid.Column="1" Text="{Binding SelectedUser.Name}" Foreground="White" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="10 4 10 4"/>
+                            <Button FontSize="30" Command="{Binding SaveSelectedUser}" Content="Сохранить" Foreground="White" Background="{DynamicResource dark3}" Margin="10 4 10 4" />
+                            <Button FontSize="30" Command="{Binding GiveTimeSelectedUser}" Content="Дать время" Foreground="White" Background="{DynamicResource dark3}" Margin="10 4 10 4" Grid.Column="2"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
